@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: Appointment API
+  version: 1.0.0
+paths:
+  /api/appointments:
+    get:
+      summary: Get appointments for a day
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+
+    post:
+      summary: Create a new appointment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '201':
+          description: Created
+        '409':
+          description: Conflict
+
+  /api/appointments/range:
+    get:
+      summary: Get appointments in a date range
+      parameters:
+        - name: start
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Success
+
+  /api/appointments/{id}:
+    put:
+      summary: Update an appointment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '200':
+          description: Updated
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+
+    delete:
+      summary: Delete an appointment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not Found
+
+components:
+  schemas:
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+        time:
+          type: string
+          format: time
+        color:
+          type: string
+        isRecurring:
+          type: boolean
+        recurrenceRule:
+          type: string

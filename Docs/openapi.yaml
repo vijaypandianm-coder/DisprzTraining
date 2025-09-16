@@ -1,0 +1,217 @@
+openapi: 3.0.3
+info:
+  title: DisprzTraining API
+  version: 1.0.0
+  description: API for managing appointments and hello world message
+
+servers:
+  - url: https://localhost:5001
+
+paths:
+  /api/appointments:
+    get:
+      summary: Get appointments by date
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+          description: Date to filter appointments (YYYY-MM-DD)
+      responses:
+        '200':
+          description: List of appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+
+    post:
+      summary: Create new appointment(s)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '201':
+          description: Appointment(s) created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        '409':
+          description: Conflict - appointment already exists at given date/time
+
+  /api/appointments/{id}:
+    put:
+      summary: Update an existing appointment
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Appointment ID to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '200':
+          description: Updated appointment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        '404':
+          description: Appointment not found
+        '409':
+          description: Time conflict
+
+    delete:
+      summary: Delete an appointment
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Appointment ID to delete
+      responses:
+        '204':
+          description: Appointment deleted successfully
+        '404':
+          description: Appointment not found
+
+  /api/helloworld:
+    get:
+      summary: Get Hello World message
+      responses:
+        '200':
+          description: HelloWorld message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloWorld'
+
+components:
+  schemas:
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Meeting with team"
+        date:
+          type: string
+          format: date
+          example: "2025-09-15"
+        time:
+          type: string
+          format: time
+          example: "14:30:00"
+        recurrence:
+          type: string
+          enum: [None, Daily, Weekly]
+          example: "None"
+
+    HelloWorld:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Hello, World!"
+components:
+  schemas:
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+        time:
+          type: string
+          format: time
+        recurrence:
+          type: string
+          enum: [None, Daily, Weekly]
+        category:
+          type: string
+          enum: [Meeting, Call, Reminder, Other]
+        timeZoneOffsetMinutes:
+          type: integer
+          description: Time zone offset in minutes (e.g., +330 for IST)
+components:
+  schemas:
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+        time:
+          type: string
+          format: time
+        recurrence:
+          type: string
+          enum: [None, Daily, Weekly]
+        category:
+          type: string
+          enum: [Meeting, Call, Reminder, Other]
+        timeZoneOffsetMinutes:
+          type: integer
+          description: Time zone offset in minutes (e.g., +330 for IST)
+        color:
+          type: string
+          description: Color code (e.g. "#FF0000")
+
+paths:
+  /api/appointments:
+    get:
+      summary: Get appointments by date (supports pagination)
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: false
+      responses:
+        '200':
+          description: List of appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
