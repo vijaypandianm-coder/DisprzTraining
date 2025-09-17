@@ -13,7 +13,6 @@ namespace DisprzTraining.Converters
             var value = reader.GetString();
             if (string.IsNullOrWhiteSpace(value))
                 throw new JsonException("Invalid DateOnly value.");
-
             return DateOnly.ParseExact(value, Format);
         }
 
@@ -32,7 +31,6 @@ namespace DisprzTraining.Converters
             var value = reader.GetString();
             if (string.IsNullOrWhiteSpace(value))
                 throw new JsonException("Invalid TimeOnly value.");
-
             return TimeOnly.ParseExact(value, Format);
         }
 

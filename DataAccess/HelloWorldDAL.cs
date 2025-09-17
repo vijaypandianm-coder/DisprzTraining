@@ -1,5 +1,5 @@
-﻿using DisprzTraining.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using DisprzTraining.Models;
 
 namespace DisprzTraining.DataAccess
 {
@@ -7,7 +7,6 @@ namespace DisprzTraining.DataAccess
     {
         public Task<HelloWorld> GetHelloWorldMessage()
         {
-            // Return a valid HelloWorld message - you can hardcode for now
             return Task.FromResult(new HelloWorld { Message = "Hello, World!" });
         }
     }

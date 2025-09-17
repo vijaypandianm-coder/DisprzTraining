@@ -37,8 +37,8 @@ namespace DisprzTraining.Controllers
         }
 
         // POST: api/appointments
-        [HttpPost]
-        public async Task<ActionResult<Appointment>> CreateAppointment(Appointment appointment)
+       [HttpPost]
+        public async Task<ActionResult<Appointment>> CreateAppointment([FromBody] Appointment appointment)
         {
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();

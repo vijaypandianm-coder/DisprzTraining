@@ -11,7 +11,7 @@ namespace DisprzTraining.Models
 
     public enum AppointmentCategory
     {
-        Meeting,
+        Meeting, 
         Call,
         Reminder,
         Other
@@ -31,6 +31,8 @@ namespace DisprzTraining.Models
         public TimeOnly Time { get; set; }
 
         [Required]
+      
+
         public RecurrenceType Recurrence { get; set; }
 
         [Required]
